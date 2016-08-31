@@ -1,0 +1,70 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-demo-helpers/demo-pages-shared-styles.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+
+<dom-module id="polymer-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      table, th, td {
+        padding: 10px;
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+
+      tr td:nth-child(3n+3) {
+        text-align: center;
+      }
+
+      tr:nth-child(even) {background: #23DB9B}
+      tr:nth-child(odd) {background: #fff}
+    </style>
+
+    <table>
+      <tr>
+        <td><paper-input id="txtFirst" label="First name" char-counter auto-validate pattern="[a-zA-Z]*" error-message="hanya huruf!"></paper-input></td>
+        <td><paper-input id="txtLast" label="Last name" char-counter auto-validate pattern="[a-zA-Z]*" error-message="hanya huruf!"></paper-input></td>
+        <td><paper-button raised on-click="add"><iron-icon icon="add-box"></iron-icon>add</paper-button></td>
+      </tr>
+      <template is="dom-repeat" items="{{users}}">
+        <tr>
+          <td>{{item.first}}</td>
+          <td>{{item.last}}</td>
+          <td><paper-button on-click="delete"><iron-icon icon="delete"></iron-icon>delete</paper-button></td>
+        </tr>
+      </template>
+    </table>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'polymer-app',
+
+      properties: {
+        users: {
+          type: Array,
+          value: function() {
+            return [];
+          }
+        }
+      },
+
+      add: function() {
+        this.push('users', {first:txtFirst.value, last:txtLast.value});
+        txtFirst.value='';
+        txtLast.value='';
+      },
+
+      delete: function(e) {
+        this.splice('users', e.model.index, 1);
+      },
+    });
+  </script>
+</dom-module>
